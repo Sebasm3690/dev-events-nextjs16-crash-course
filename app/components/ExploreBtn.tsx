@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import posthog from 'posthog-js';
 
 const ExploreBtn = () => {
   return (
@@ -9,7 +10,10 @@ const ExploreBtn = () => {
       type="button"
       id="explore-btn"
       className="mt-7 mx-auto"
-      onClick={() => console.log('ExploreBtn clicked')}
+      onClick={() => {
+        console.log('ExploreBtn clicked');
+        posthog.capture('explore_events_clicked');
+      }}
     >
       <Link href="/events">
         Explore Events
