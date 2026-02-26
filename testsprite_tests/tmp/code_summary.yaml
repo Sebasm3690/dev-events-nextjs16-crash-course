@@ -1,0 +1,81 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - Next.js 16
+  - React 19
+  - Tailwind CSS 4
+  - PostHog analytics
+  - OGL (WebGL)
+  - shadcn/ui
+routes:
+  - path: /
+    file: app/page.tsx
+    auth_required: false
+    description: Home page displaying featured dev events with hero section and event cards
+features:
+  - name: View Featured Events
+    description: Home page displays a list of featured developer events as cards with image, title, location, date, and time
+    files:
+      - app/page.tsx
+      - app/components/EventCard.tsx
+      - lib/constants.ts
+    entry_route: /
+    user_interactions:
+      - View the hero section with heading and description
+      - See a grid of featured event cards
+      - Each card shows event image, location, date, time, and title
+      - Click an event card to navigate to event detail page
+    api_calls: []
+    auth_required: false
+  - name: Explore Events Button
+    description: A call-to-action button on the home page that navigates to the events listing page
+    files:
+      - app/components/ExploreBtn.tsx
+    entry_route: /
+    user_interactions:
+      - Click the Explore Events button
+      - Navigate to /events page
+    api_calls: []
+    auth_required: false
+  - name: Navigation Bar
+    description: Top navigation bar with logo and links to Home, Events, and Create Event pages
+    files:
+      - app/components/Navbar.tsx
+    entry_route: /
+    user_interactions:
+      - Click the DevEvent logo to navigate to home
+      - Click Home link
+      - Click Events link
+      - Click Create Event link
+    api_calls: []
+    auth_required: false
+  - name: Light Rays Background Animation
+    description: WebGL-powered animated light rays background effect using OGL library
+    files:
+      - app/components/LightRays.tsx
+    entry_route: /
+    user_interactions:
+      - Move mouse to see light rays follow cursor
+      - Background animation renders automatically
+    api_calls: []
+    auth_required: false
+  - name: PostHog Analytics Tracking
+    description: Event tracking for user interactions including navbar clicks, event card clicks, and explore button clicks
+    files:
+      - app/components/Navbar.tsx
+      - app/components/EventCard.tsx
+      - app/components/ExploreBtn.tsx
+      - instrumentation-client.ts
+    entry_route: /
+    user_interactions:
+      - Click any interactive element to trigger analytics event capture
+    api_calls: []
+    auth_required: false
+known_limitations:
+  - issue: Events and Create Event navbar links all point to / instead of their respective routes
+    location: app/components/Navbar.tsx
+    impact: Navigation links do not lead to separate pages
+  - issue: Event detail pages at /events/{slug} do not exist yet
+    location: app/components/EventCard.tsx
+    impact: Clicking an event card will result in a 404 page
