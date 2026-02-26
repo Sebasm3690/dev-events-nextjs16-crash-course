@@ -15,7 +15,13 @@ interface MongooseCache {
 // Extend the global object to include our cached connection
 declare global {
   // eslint-disable-next-line no-var
-  var mongoose: MongooseCache | undefined;
+  var mongooseCache: MongooseCache | undefined;
+}
+
+const cached: MongooseCache = global.mongooseCache ?? { conn: null, promise: null };
+
+if (!global.mongooseCache) {
+  global.mongooseCache = cached;
 }
 
 const cached: MongooseCache = global.mongoose ?? { conn: null, promise: null };
