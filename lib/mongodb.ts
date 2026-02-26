@@ -1,11 +1,7 @@
-import mongoose, { type Mongoose } from "mongoose";
+import mongoose, { type Mongoose } from 'mongoose';
 
 // Ensure the MongoDB URI is defined in environment variables
 const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable in .env.local");
-}
 
 /**
  * Cache the Mongoose connection in the Node.js global scope
@@ -35,6 +31,12 @@ if (!global.mongoose) {
  * otherwise creates a new connection and caches it.
  */
 async function connectToDatabase(): Promise<Mongoose> {
+  if (!MONGODB_URI) {
+    throw new Error(
+      'Please define the MONGODB_URI environment variable in .env.local',
+    );
+  }
+
   // Return the existing connection if available
   if (cached.conn) {
     return cached.conn;
@@ -42,8 +44,8 @@ async function connectToDatabase(): Promise<Mongoose> {
 
   // Create a new connection promise if one doesn't exist
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI!, {
-      dbName: "devevents",
+    cached.promise = mongoose.connect(MONGODB_URI, {
+      dbName: 'devevents',
       bufferCommands: false,
     });
   }
