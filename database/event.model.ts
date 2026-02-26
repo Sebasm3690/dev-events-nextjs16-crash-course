@@ -123,6 +123,19 @@ EventSchema.pre("save", function (next) {
     const minutes = timeMatch[2];
     const period = timeMatch[3]?.toUpperCase();
 
+    // Validate hour bounds based on format
+    if (period) {
+      // 12-hour format: hours must be 1-12
+      if (hours < 1 || hours > 12) {
+        return next(new Error("Invalid time: hours must be 1-12 for AM/PM format."));
+      }
+    } else {
+      // 24-hour format: hours must be 0-23
+      if (hours < 0 || hours > 23) {
+        return next(new Error("Invalid time: hours must be 0-23."));
+      }
+    }
+
     // Convert 12-hour format to 24-hour if AM/PM is provided
     if (period) {
       if (period === "PM" && hours < 12) hours += 12;
