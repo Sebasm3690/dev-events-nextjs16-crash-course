@@ -377,5 +377,3 @@ To improve the reliability of client-side tracking and make requests less likely
 Ask a question
 
 ### Was this page useful?
-
-HelpfulCould be better
