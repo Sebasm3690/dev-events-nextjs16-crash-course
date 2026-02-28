@@ -8,10 +8,13 @@ const BookEvent = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
+    // TODO: Send email to API endpoint
     setTimeout(() => {
       setSubmitted(true);
+      setIsLoading(false);
     }, 1000);
+  };
   };
 
   return (
