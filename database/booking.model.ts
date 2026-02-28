@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model, Types } from 'mongoose';
+import Event from './event.model';
 
 // TypeScript interface representing a Booking document
 export interface IBooking extends Document {
@@ -40,7 +41,7 @@ const BookingSchema = new Schema<IBooking>(
  */
 BookingSchema.pre('save', async function () {
   if (this.isModified('eventId')) {
-    const eventExists = await mongoose.models.Event?.findById(this.eventId);
+    const eventExists = await Event.exists({ _id: this.eventId });
 
     if (!eventExists) {
       throw new Error('Referenced event does not exist.');

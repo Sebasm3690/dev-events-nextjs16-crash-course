@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+require('dotenv').config({ path: '.env.local' });
 
 async function migrate() {
-  await mongoose.connect(
-    'mongodb+srv://anonblade10_db_user:Awayouname11@cluster0.vt0uun6.mongodb.net/?appName=Cluster0',
-    { dbName: 'devevents' },
-  );
+  if (!process.env.MONGODB_URI) {
+    throw new Error('Please define MONGODB_URI in .env.local');
+  }
+
+  await mongoose.connect(process.env.MONGODB_URI, { dbName: 'devevents' });
   const collection = mongoose.connection.db.collection('events');
   const events = await collection.find({}).toArray();
 
@@ -51,11 +53,7 @@ async function migrate() {
   }
 
   console.log('Migration complete');
-  await mongoose.disconnect();
   process.exit(0);
 }
 
-migrate().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+migrate().catch(console.error);
