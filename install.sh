@@ -380,7 +380,7 @@ main() {
     print_success "Installation complete!"
     echo
     print_status "Next steps:"
-    echo "  1. Restart your shell or run: source ~/.$(basename $SHELL)rc"
+    echo "  1. Restart your shell or run 'source' on your shell profile"
     echo "  2. Run 'coderabbit auth login' to authenticate"
     echo
     echo "===== Try CodeRabbit CLI with AI Coding Agents ====="
