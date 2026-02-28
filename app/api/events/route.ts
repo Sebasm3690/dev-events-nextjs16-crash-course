@@ -17,14 +17,39 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
 
-    let tags = JSON.parse(formData.get('tags') as string);
-    let agenda = JSON.parse(formData.get('agenda') as string);
+    const rawTags = formData.get('tags');
+    const rawAgenda = formData.get('agenda');
+
+    if (!rawTags || typeof rawTags !== 'string' || !rawAgenda || typeof rawAgenda !== 'string') {
+      return NextResponse.json(
+        { error: 'Invalid or missing tags/agenda' },
+        { status: 400 },
+      );
+    }
+
+    let tags;
+    try {
+      tags = JSON.parse(rawTags);
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid or missing tags/agenda' },
+        { status: 400 },
+      );
+    }
+
+    let agenda;
+    try {
+      agenda = JSON.parse(rawAgenda);
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid or missing tags/agenda' },
+        { status: 400 },
+      );
+    }
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // TODO: Upload the buffer to a storage service (e.g., Cloudinary, S3) and get the image URL.
-    // For now, we are extracting the other form fields to create the event.
     const eventData = Object.fromEntries(formData.entries());
 
     const event = {
