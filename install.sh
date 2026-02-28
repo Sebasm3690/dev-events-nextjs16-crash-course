@@ -279,8 +279,16 @@ setup_path() {
             if [ ! -d "$HOME/.config/fish" ]; then
                 mkdir -p "$HOME/.config/fish"
             fi
-            echo "set -gx PATH $BIN_DIR \$PATH" >> "$HOME/.config/fish/config.fish"
-            print_success "Added $BIN_DIR to PATH in Fish shell configuration"
+            fish_config="$HOME/.config/fish/config.fish"
+            fish_path_cmd="set -gx PATH $BIN_DIR \$PATH"
+            if ! grep -qF "$fish_path_cmd" "$fish_config" 2>/dev/null; then
+                echo "" >> "$fish_config"
+                echo "# Added by CodeRabbit CLI installer" >> "$fish_config"
+                echo "$fish_path_cmd" >> "$fish_config"
+                print_success "Added $BIN_DIR to PATH in Fish shell configuration"
+            else
+                print_status "PATH already configured in $fish_config"
+            fi
             return 0
             ;;
         *)
@@ -372,7 +380,7 @@ main() {
     print_success "Installation complete!"
     echo
     print_status "Next steps:"
-    echo "  1. Restart your shell or run: source ~/.$(basename $SHELL)rc"
+    echo "  1. Restart your shell or run 'source' on your shell profile"
     echo "  2. Run 'coderabbit auth login' to authenticate"
     echo
     echo "===== Try CodeRabbit CLI with AI Coding Agents ====="

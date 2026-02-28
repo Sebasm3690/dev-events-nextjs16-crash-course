@@ -17,7 +17,7 @@ const EventDetailItem = ({
   alt: string;
   label: string;
 }) => (
-  <div className="flex-row-gap-2 items-center ">
+  <div className="flex flex-row gap-2 items-center">
     <Image src={icon} alt={alt} height={17} width={17} />
     <p>{label}</p>
   </div>
