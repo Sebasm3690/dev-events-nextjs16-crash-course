@@ -51,7 +51,11 @@ async function migrate() {
   }
 
   console.log('Migration complete');
+  await mongoose.disconnect();
   process.exit(0);
 }
 
-migrate().catch(console.error);
+migrate().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
