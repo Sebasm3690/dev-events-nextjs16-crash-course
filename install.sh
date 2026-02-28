@@ -279,8 +279,16 @@ setup_path() {
             if [ ! -d "$HOME/.config/fish" ]; then
                 mkdir -p "$HOME/.config/fish"
             fi
-            echo "set -gx PATH $BIN_DIR \$PATH" >> "$HOME/.config/fish/config.fish"
-            print_success "Added $BIN_DIR to PATH in Fish shell configuration"
+            fish_config="$HOME/.config/fish/config.fish"
+            fish_path_cmd="set -gx PATH $BIN_DIR \$PATH"
+            if ! grep -qF "$fish_path_cmd" "$fish_config" 2>/dev/null; then
+                echo "" >> "$fish_config"
+                echo "# Added by CodeRabbit CLI installer" >> "$fish_config"
+                echo "$fish_path_cmd" >> "$fish_config"
+                print_success "Added $BIN_DIR to PATH in Fish shell configuration"
+            else
+                print_status "PATH already configured in $fish_config"
+            fi
             return 0
             ;;
         *)
