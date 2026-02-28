@@ -1,10 +1,12 @@
-import mongoose, { type Mongoose } from "mongoose";
+import mongoose, { type Mongoose } from 'mongoose';
 
 // Ensure the MongoDB URI is defined in environment variables
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable in .env.local");
+  throw new Error(
+    'Please define the MONGODB_URI environment variable in .env.local',
+  );
 }
 
 /**
@@ -22,17 +24,13 @@ declare global {
   var mongooseCache: MongooseCache | undefined;
 }
 
-const cached: MongooseCache = global.mongooseCache ?? { conn: null, promise: null };
+const cached: MongooseCache = global.mongooseCache ?? {
+  conn: null,
+  promise: null,
+};
 
 if (!global.mongooseCache) {
   global.mongooseCache = cached;
-}
-
-const cached: MongooseCache = global.mongoose ?? { conn: null, promise: null };
-
-// Persist the cache on the global object so it survives hot reloads
-if (!global.mongoose) {
-  global.mongoose = cached;
 }
 
 /**
@@ -49,7 +47,7 @@ async function connectToDatabase(): Promise<Mongoose> {
   // Create a new connection promise if one doesn't exist
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI!, {
-      dbName: "devevents",
+      dbName: 'devevents',
       bufferCommands: false,
     });
   }
