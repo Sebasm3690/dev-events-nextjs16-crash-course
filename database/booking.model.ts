@@ -4,6 +4,7 @@ import Event from './event.model';
 // TypeScript interface representing a Booking document
 export interface IBooking extends Document {
   eventId: Types.ObjectId;
+  slug: string;
   email: string;
   createdAt: Date;
   updatedAt: Date;
@@ -19,6 +20,10 @@ const BookingSchema = new Schema<IBooking>(
       ref: 'Event',
       required: [true, 'Event ID is required'],
       index: true, // Index for faster event-based queries
+    },
+    slug: {
+      type: String,
+      required: [true, 'Slug is required'],
     },
     email: {
       type: String,
